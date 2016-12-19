@@ -14,7 +14,7 @@ from recommendation.BaseModel import BaseModel
 app = Flask(__name__)
 
 
-@app.route('/api/v1.0/recommendation')
+@app.route('/api/v1.0/recommendation',methods=["post"])
 def recommend():
     
     return jsonify()
