@@ -6,8 +6,8 @@ Created on Tue Dec 20 23:08:39 2016
 """
 import httplib, urllib
 
-ownSide = [5,6,7]
-enemySide = [1,2,3]
+ownSide = [5,6,7,8]
+enemySide = [1,2,3,9,10]
 params = urllib.urlencode({'ownSide': ownSide,
                            'enemySide': enemySide,
                            'topK':3})

@@ -58,8 +58,8 @@ if __name__ == "__main__":
     modelPath = "../resource/model.pkl"    
     heroDict = loadHeroDict("../resource/heroes.json")
     baseModel = BaseModel(modelPath,heroDict)
-    ownSide = [5,6,7]
-    enemySide = [1,2,3]
+    ownSide = [6,7,8]
+    enemySide = [1,2,3,4,5]
     
     engine = Engine(baseModel,heroDict,epochs=100)
     
