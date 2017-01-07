@@ -11,7 +11,7 @@ class TreeLayer:
     montecarlo tree的一层
     """
     
-    side = 0                #1表示enemyside，0表示ownside
+    side = True             #1表示enemyside，0表示ownside
     remainList = []         #本层可选英雄集合
     nodeSet = []
     playedTimes = 0         #这一局面下所有可选策略总的实验次数
@@ -72,6 +72,10 @@ class Node:
     def getUcbScore(self):
         
         return self.ucbScore
+    
+    def getHeroId(self):
+        
+        return self.heroId
         
 def ucbScore():
     pass
