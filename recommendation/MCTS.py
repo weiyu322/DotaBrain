@@ -5,7 +5,10 @@ Created on Sun Jan 01 17:54:48 2017
 @author: Administrator
 """
 import random
+from time import time
 from TreeLayer import TreeLayer,Node
+from BaseModel import BaseModel
+from Utils import loadHeroDict
 
 class MCTS:
     """
@@ -19,6 +22,8 @@ class MCTS:
     model = None
     heroWinRate = {}        #记录英雄胜率
     avgWinRate = 0          #当前局面下平均胜率
+    firstLayer = None
+    rounds = 0
 
     def __init__(self,ownSide,enemySide,model,heroDict):
         
@@ -33,7 +38,7 @@ class MCTS:
                                 .union(set(self.enemySide))))
         self.model = model
     
-    def run(self):
+    def run(self,runTime=5):
         
         """
         如果己方已选4个，对方选了5个，则只需要遍历候选英雄集
@@ -57,17 +62,19 @@ class MCTS:
         MCTS迭代
         """
         remainHeroNum = 10 - len(self.enemySide) - len(self.ownSide)
-        remainOwnSideNum = len(self.ownSide)
-        remainEnemySideNum = len(self.enemySide)
+        remainOwnSideNum = 5 - len(self.ownSide)
+        remainEnemySideNum = 5 - len(self.enemySide)
         root = Node(heroId=None,nextLayer=None)
         #初始化firstLayer，从己方开始轮流选
-        firstLayer = TreeLayer(remainList=self.remainList,
+        self.firstLayer = TreeLayer(remainList=self.remainList,
                                side=True,
                                parentNode=root)
-        root.setNextLayer(firstLayer)
+        root.setNextLayer(self.firstLayer)
         
-        while True:
-            layer = firstLayer
+        startTime = time()
+        while (time() - startTime) < runTime:
+        #while True:
+            layer = self.firstLayer
             #ownSideNodeStack = []
             #enemySideNodeStack = []
             ownSideHeroStack = []
@@ -88,6 +95,10 @@ class MCTS:
                 nodeStack.append(node)
                 heroStack.append(node.getHeroId())
                 layerStack.append(layer)
+                if side == True:
+                    ownSideHeroStack.append(node.getHeroId())
+                else:
+                    enemySideHeroStack.append(node.getHeroId())
                 #已经到叶节点
                 if i == (remainHeroNum - 1):
                     continue
@@ -102,7 +113,18 @@ class MCTS:
                     layer = TreeLayer(remainList=remainList,
                                       side=side,
                                       parentNode=node)
-            
+                    node.nextLayer = layer
+                
+                #模拟双方轮流选人
+                if ((len(ownSideHeroStack) < remainOwnSideNum) 
+                    and (len(enemySideHeroStack) < remainEnemySideNum)):
+                            
+                    side = not side
+                elif (len(ownSideHeroStack) < remainOwnSideNum):
+                    side = True
+                else:
+                    side = False
+                    
             #用选择的heroStack进行胜率预测
             ownSideTemp = list(self.ownSide)
             ownSideTemp.extend(ownSideHeroStack)
@@ -115,18 +137,20 @@ class MCTS:
                                                   ownSideTemp)[0]                
             ownSideWinRate = (radiantWinRate + direWinRate) / 2.0
             #enemyside winrate
-            radiantWinRate = self.model.predictProba(ownSideTemp,
-                                                     self.enemySide)[0]
-            direWinRate = self.model.predictProba(self.enemySide,
-                                                  ownSideTemp)[1]                
-            enemySideWinRate = (radiantWinRate + direWinRate) / 2.0
+            enemySideWinRate = 1 - ownSideWinRate
             
             #backpropagation更新nodeStack和layerStack中的参数
             result = (ownSideWinRate,enemySideWinRate)
             self.backPropagation(nodeStack=nodeStack,
                                  layerStack=layerStack,
                                  result=result)
-    
+            self.rounds += 1
+        #返回计算数据
+        for node in self.firstLayer.nodeSet:
+            self.heroWinRate[node.getHeroId()] = node.winRate()
+        
+        
+        
     def backPropagation(self,nodeStack,layerStack,result):
         """
         更新nodeStack和layerStack的参数
@@ -134,7 +158,7 @@ class MCTS:
         stack = zip(nodeStack,layerStack)
         for node,layer in stack:
             node.playedTimes += 1
-            layerStack.playedTimes += 1
+            layer.playedTimes += 1
             if layer.side == True:            
                 node.totalWinRate += result[0]
             else:
@@ -151,6 +175,7 @@ class MCTS:
             heroId = random.sample(layer.heroToBeSelected,1)[0]
             node = Node(heroId=heroId,
                         nextLayer=None)
+            layer.add(node)
             return node
         
         #如果该层所有英雄都已选过，则选择ucb值最大的英雄
@@ -181,3 +206,16 @@ class MCTS:
             return False
             
         return True
+
+if __name__ == "__main__":
+    """
+    单元测试
+    """    
+    modelPath = "../resource/model.pkl"    
+    heroDict = loadHeroDict("../resource/heroes.json")
+    model = BaseModel(modelPath,heroDict)
+    ownSide = [5,6,7]
+    enemySide = [1,2,3]
+    
+    mc = MCTS(ownSide,enemySide,model,heroDict)
+    mc.run(runTime=5)

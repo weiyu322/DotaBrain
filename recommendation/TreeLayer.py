@@ -21,7 +21,7 @@ class TreeLayer:
     
     def __init__(self,remainList,side,parentNode):
         self.remainList = remainList
-        self.heroToBeSelected = remainList
+        self.heroToBeSelected = list(remainList)
         self.side = side
         self.parentNode = parentNode
         
@@ -49,6 +49,31 @@ class TreeLayer:
             return None
         
         return self.nodeSet[i]
+    
+    def winRate(self):
+        """
+        计算本层节点的总胜率
+        """
+        totalWinRate = 0
+        for node in self.nodeSet:
+            totalWinRate += node.winRate()
+        
+        return totalWinRate / self.length()
+    
+    def getBestNode(self):
+        """
+        返回ucb值最大的节点
+        """
+        node = self.nodeSet[0]
+        score = node.ucbScore(self.playedTimes)
+        for i in self.nodeSet:
+            if i.ucbScore(self.playedTimes) > score:
+                node = i
+                score = node.ucbScore(playedTimes)
+        
+        return node
+    
+    
 
 class Node:
 
@@ -76,7 +101,9 @@ class Node:
         ucb1 = winrate + sqrt(2*lnn / ni)
         """
         winRate = self.winRate()
-        confidenceInterval = math.sqrt(2 * math.log(totalPlayedTimes) / self.playedTimes)
+        #print totalPlayedTimes
+        #print self.playedTimes
+        confidenceInterval = math.sqrt(2 * math.log(totalPlayedTimes,math.e) / self.playedTimes)
         
         return winRate + confidenceInterval 
     
