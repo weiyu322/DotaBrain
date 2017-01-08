@@ -13,20 +13,31 @@ class TreeLayer:
     
     side = True             #1表示enemyside，0表示ownside
     remainList = []         #本层可选英雄集合
-    nodeSet = []
+    heroToBeSelected = []   #本层还未选择过得英雄
+    nodeSet = []            #本层节点集合
     playedTimes = 0         #这一局面下所有可选策略总的实验次数
     parentNode = None
     
+    
     def __init__(self,remainList,side,parentNode):
         self.remainList = remainList
+        self.heroToBeSelected = remainList
         self.side = side
         self.parentNode = parentNode
+        
         
     def add(self,node):
         """
         往这一层中添加节点
         """
-        self.nodeSet.append(node)
+        if node.getHeroId() in self.heroToBeSelected:
+            self.nodeSet.append(node)
+            self.heroToBeSelected.remove(node.getHeroId())
+            
+        else:
+            return
+        
+        return
     
     def length(self):
         
@@ -41,9 +52,9 @@ class TreeLayer:
 
 class Node:
 
-    ucbScore = 0
+    #ucbScore = 0
     playedTimes = 0
-    winTimes = 0
+    totalWinRate = 0
     nextLayer = None
     heroId = None
         
@@ -57,7 +68,7 @@ class Node:
         
     def winRate(self):
 
-        return self.winTimes / self.playedTimes
+        return self.totalWinRate / self.playedTimes
     
     def ucbScore(self,totalPlayedTimes):
         """
@@ -69,9 +80,6 @@ class Node:
         
         return winRate + confidenceInterval 
     
-    def getUcbScore(self):
-        
-        return self.ucbScore
     
     def getHeroId(self):
         
