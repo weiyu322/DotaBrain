@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import json
 
-f = open("E:/dota2/heroes.json")
+f = open("../resource/heroes.json")
 heroes = json.load(f)
 f.close()
 heroes = heroes["heroes"]

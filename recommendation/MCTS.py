@@ -67,8 +67,7 @@ class MCTS:
         root = Node(heroId=None,nextLayer=None)
         #初始化firstLayer，从己方开始轮流选
         self.firstLayer = TreeLayer(remainList=self.remainList,
-                               side=True,
-                               parentNode=root)
+                               side=True)
         root.setNextLayer(self.firstLayer)
         
         startTime = time()
@@ -103,18 +102,6 @@ class MCTS:
                 if i == (remainHeroNum - 1):
                     continue
                 
-                #node后无layer则初始化layer，传入当前的remainList
-                #node后有layer则将当前layer指向node.nextLayer
-                if node.nextLayer != None:
-                    layer = node.nextLayer
-                else:
-                    remainList = list(set(self.remainList)
-                                        .difference(set(heroStack)))
-                    layer = TreeLayer(remainList=remainList,
-                                      side=side,
-                                      parentNode=node)
-                    node.nextLayer = layer
-                
                 #模拟双方轮流选人
                 if ((len(ownSideHeroStack) < remainOwnSideNum) 
                     and (len(enemySideHeroStack) < remainEnemySideNum)):
@@ -124,6 +111,19 @@ class MCTS:
                     side = True
                 else:
                     side = False
+                    
+                #node后无layer则初始化layer，传入当前的remainList
+                #node后有layer则将当前layer指向node.nextLayer
+                if node.nextLayer != None:
+                    layer = node.nextLayer
+                else:
+                    remainList = list(set(self.remainList)
+                                        .difference(set(heroStack)))
+                    layer = TreeLayer(remainList=remainList,
+                                      side=side)
+                    node.nextLayer = layer
+                
+
                     
             #用选择的heroStack进行胜率预测
             ownSideTemp = list(self.ownSide)
@@ -214,8 +214,8 @@ if __name__ == "__main__":
     modelPath = "../resource/model.pkl"    
     heroDict = loadHeroDict("../resource/heroes.json")
     model = BaseModel(modelPath,heroDict)
-    ownSide = [5,6,7]
-    enemySide = [1,2,3]
+    ownSide = [5,6,7,8]
+    enemySide = [1,2,3,4]
     
     mc = MCTS(ownSide,enemySide,model,heroDict)
     mc.run(runTime=5)

@@ -10,20 +10,23 @@ class TreeLayer:
     """
     montecarlo tree的一层
     """
-    
+    """
     side = True             #1表示enemyside，0表示ownside
     remainList = []         #本层可选英雄集合
     heroToBeSelected = []   #本层还未选择过得英雄
     nodeSet = []            #本层节点集合
     playedTimes = 0         #这一局面下所有可选策略总的实验次数
     parentNode = None
+    """
     
-    
-    def __init__(self,remainList,side,parentNode):
+    def __init__(self,remainList,side):
         self.remainList = remainList
         self.heroToBeSelected = list(remainList)
         self.side = side
-        self.parentNode = parentNode
+        self.nodeSet = []
+        self.playedTimes = 0
+        self.parentNode = None
+        #self.parentNode = parentNode
         
         
     def add(self,node):
@@ -76,16 +79,19 @@ class TreeLayer:
     
 
 class Node:
-
+    """
     #ucbScore = 0
     playedTimes = 0
     totalWinRate = 0
     nextLayer = None
     heroId = None
-        
+    """
+    
     def __init__(self,heroId,nextLayer=None):
         self.heroId = heroId
         self.nextLayer = nextLayer
+        self.playedTimes = 0
+        self.totalWinRate = 0
     
     def setNextLayer(self,layer):
         
@@ -111,6 +117,11 @@ class Node:
     def getHeroId(self):
         
         return self.heroId
+    
+    def __str__(self):
+        dic = {"heroId":self.heroId,
+               "playedTimes":self.playedTimes}
+        return str(dic)
         
 def ucbScore():
     pass

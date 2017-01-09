@@ -17,9 +17,9 @@ import matplotlib.pyplot as plt
 
 #Read Data
 print 'Read data...'
-df1 = pd.read_csv('E:/dota2/datasets/train.csv')
-df2 = pd.read_csv('E:/dota2/datasets/test1.csv')
-df3 = pd.read_csv('E:/dota2/datasets/test2.csv')
+df1 = pd.read_csv('D:/dota2/datasets/train.csv')
+df2 = pd.read_csv('D:/dota2/datasets/test1.csv')
+df3 = pd.read_csv('D:/dota2/datasets/test2.csv')
 
 #Preprocessing
 print 'Preprocessing...'
@@ -44,7 +44,7 @@ def LR():
     clf = LogisticRegression()
     return clf
 
-clf = LR()
+#clf = LR()
 """
 #train
 print 'Trainning...'
@@ -81,8 +81,13 @@ def plot_curve(title,train_sizes,train_scores,test_scores):
     plt.legend(loc="best")
     plt.show()
 
-size=[0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.7,0.8,0.9,1]
-train_scores,test_scores = learning_curve(x_train,y_train,x_test,y_test,clf,size)
-title = "Logistic Rregression learning curve"
-train_sizes = map(lambda x:x*len(x_train),size)
-plot_curve(title,train_sizes,train_scores,test_scores)
+if __name__ == "__main__":
+    """
+    size=[0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.5,0.6,0.7,0.8,0.9,1]
+    train_scores,test_scores = learning_curve(x_train,y_train,x_test,y_test,clf,size)
+    title = "Logistic Rregression learning curve"
+    train_sizes = map(lambda x:x*len(x_train),size)
+    plot_curve(title,train_sizes,train_scores,test_scores)
+    """
+    clf = LR()
+    clf.fit(x_train,y_train)
