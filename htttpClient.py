@@ -8,6 +8,8 @@ Created on Tue Dec 20 23:08:39 2016
 import requests
 import json
 
+ownSide = [1,2,3,4]
+enemySide = [5,6,7,8]
 headers = {'Content-type': 'application/json'}
 match = {'ownSide': ownSide,
          'enemySide': enemySide,
