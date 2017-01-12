@@ -47,3 +47,16 @@ The web server provides two APIs: prediction API and recommendation API
     "direWinRate": 0.51262806248781567
   }
   ```
+* recommendation api: given part of hero composition of a match(< 10 heroes choosen), return topK hero recommendations
+  * request form
+  ```
+  POST /api/v1.0/recommend HTTP/1.1
+  Content-type: application/json
+  Host: localhost:5000
+  
+  {
+    "ownSide": [1,2,3],
+    "enemySide": [4,5,6]
+    "topK": 3
+  }
+  ```
