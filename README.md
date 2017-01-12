@@ -9,6 +9,6 @@ python app.py
 ```
 
 ## Requirements
-1.flask
-2.scikit-learn
+1.flask<br>
+2.scikit-learn<br>
 3.numpy
