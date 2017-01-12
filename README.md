@@ -47,8 +47,8 @@ The web server provides two APIs: prediction API and recommendation API
     "direWinRate": 0.51262806248781567
   }
   ```
-* recommendation api: given part of hero composition of a match(< 10 heroes choosen), return topK hero recommendations
- * request form
+* recommendation api: given part of hero composition of a match(< 10 heroes), return topK hero recommendations
+  * request form
   ```
   POST /api/v1.0/recommend HTTP/1.1
   Content-type: application/json
@@ -58,5 +58,21 @@ The web server provides two APIs: prediction API and recommendation API
     "ownSide": [1,2,3],
     "enemySide": [4,5,6]
     "topK": 3
+  }
+  ```
+  * response form
+  ```
+  HTTP/1.1 200 OK
+  Date: Thu, 12 Jan 2017 08:34:15 GMT
+  Content-Type: application/json
+  Server: Werkzeug/0.11.4 Python/2.7.12
+  
+  {
+    "avgWinRate": 0.33632085184454052, 
+    "recommendation": [
+      96, 
+      40, 
+      57
+    ]
   }
   ```
