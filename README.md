@@ -48,7 +48,7 @@ The web server provides two APIs: prediction API and recommendation API
   }
   ```
 * recommendation api: given part of hero composition of a match(< 10 heroes choosen), return topK hero recommendations
-  * request form
+ * request form
   ```
   POST /api/v1.0/recommend HTTP/1.1
   Content-type: application/json
