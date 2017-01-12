@@ -17,38 +17,14 @@ app = Flask(__name__)
 @app.route('/api/v1.0/recommend',methods=["POST"])
 def recommend():
     
-    ownSide = request.form["ownSide"]
+    ownSide = request.json["ownSide"]
     print ownSide
-    print eval(ownSide)
-    enemySide = request.form["enemySide"]
-    topK = request.form["topK"]
-    #print list(ownSide)
-    
-    #urllib.encode传过来的数据是unicode字符串形式，先解析成int型list
-    """
-    ownSide = ownSide.split(",")
-    
-    print ownSide
-    ownSide = list(ownSide)
-    print ownSide
-    del ownSide[0]
-    del ownSide[len(ownSide)-1]
 
-    print ownSide
-    ownSide = map(int,ownSide)
+    enemySide = request.json["enemySide"]
+    topK = request.json["topK"]
+
     
-    enemySide = enemySide.split(",")
-    enemySide = list(enemySide)
-    del enemySide[0]
-    del enemySide[len(enemySide)-1]
-    enemySide = map(int,enemySide)
-    
-    print ownSide
-    """
-    ownSide = eval(ownSide)
-    enemySide = eval(enemySide)
-    
-    recommendInfo = engine.recommend(ownSide,enemySide)
+    recommendInfo = engine.recommend(ownSide,enemySide,topK)
     print recommendInfo
     
     return jsonify(recommendInfo)
