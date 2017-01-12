@@ -24,7 +24,26 @@ python app.py
 ### Using APIs
 The web server provides two APIs: prediction API and recommendation API
 * prediction api: given the full hero composition of a match(10 heroes), return the predicitve result of the match 
- * request form
+  * request form
 ``` 
-POST
+POST /api/v1.0/predict HTTP/1.1
+Content-type: application/json
+Host: localhost:5000
+
+{
+  "radiant": [1,2,3,4,5],
+  "dire": [6,7,8,9,10]
+}
 ```
+  * response form
+  ```
+  HTTP/1.1 200 OK
+  Date: Thu, 12 Jan 2017 08:34:15 GMT
+  Content-Type: application/json
+  Server: Werkzeug/0.11.4 Python/2.7.12
+  
+  {
+    "radiantWinRate": 0.48737193751218433,
+    "direWinRate": 0.51262806248781567
+  }
+  ```
