@@ -5,6 +5,7 @@ Created on Sun Dec 18 16:13:08 2016
 @author: Administrator
 """
 from PureMC import PureMC
+from MCTS import MCTS
 from BaseModel import BaseModel
 from Utils import loadHeroDict
 from time import time
@@ -39,29 +40,35 @@ class Engine:
             searchModel = PureMC(ownSide,enemySide,
                                  self.baseModel,self.heroDict)            
             searchModel.run(epochs=self.epochs)
-            recommendInfo["avgWinRate"] = searchModel.avgWinRate
+            recommendInfo["avgWinRate"] = searchModel.getAvgWinRate()
+            heroList = searchModel.policy()
+            recommendInfo["recommendation"] = heroList[0:topK]
             
-            heroWinRate = searchModel.getHeroWinRate()
-            #将heroWinRate按英雄胜率由大到小排序
-            #sortedList是由(hero,winRate)二元组组成的list
-            sortedList = sorted(heroWinRate.iteritems(), 
-                                key=lambda d:d[1], reverse = True)
-            
-            recommendInfo["recommendation"] = sortedList[0:topK]
+            return recommendInfo
+        else:
+            """
+            method == "MCTS"
+            """
+            searchModel = MCTS(ownSide,enemySide,
+                               self.baseModel,self.heroDict)
+            searchModel.run(runTime=5)
+            recommendInfo["avgWinRate"] = searchModel.getAvgWinRate()
+            heroList = searchModel.policy()
+            recommendInfo["recommendation"] = heroList[0:topK]
             
             return recommendInfo
         
-        return
+        
         
 if __name__ == "__main__":
     
     modelPath = "../resource/model.pkl"    
     heroDict = loadHeroDict("../resource/heroes.json")
     baseModel = BaseModel(modelPath,heroDict)
-    ownSide = [6,7,8]
-    enemySide = [1,2,3,4,5]
+    ownSide = [6,7,8,9]
+    enemySide = [1,2,3,4]
     
-    engine = Engine(baseModel,heroDict,epochs=100)
+    engine = Engine(baseModel,heroDict,epochs=100,method="MCTS")
     
     start = time()
     recommendInfo = engine.recommend(ownSide,enemySide)

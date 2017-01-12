@@ -132,13 +132,25 @@ class PureMC:
     
     def getAvgWinRate(self):
         return self.avgWinRate
-        
+    
+    def policy(self):
+        heroWinRate = self.heroWinRate
+        sortedList = sorted(heroWinRate.iteritems(), 
+                                key=lambda d:d[1], reverse = True)
+        heroList = []
+        for i in sortedList:
+            heroList.append(i[0])
+            
+        return heroList
+    
+    def getAvgWinRate(self):
+        return self.avgWinRate
 if __name__ == "__main__":
     """
     单元测试
     """    
-    modelPath = "E:\\dota2\\code\\model.pkl"    
-    heroDict = loadHeroDict("E:\\dota2\\heroes.json")
+    modelPath = "../resource/model.pkl"    
+    heroDict = loadHeroDict("../resource/heroes.json")
     model = BaseModel(modelPath,heroDict)
     ownSide = [5,6,7]
     enemySide = [1,2,3]

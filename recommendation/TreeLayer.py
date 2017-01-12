@@ -76,8 +76,26 @@ class TreeLayer:
         
         return node
     
+    def avgWinRate(self):
+        totalWinRate = 0
+        for node in self.nodeSet:
+            totalWinRate += node.totalWinRate
+        
+        return totalWinRate / self.playedTimes
     
-
+    def heroDict(self):
+        heroes = {}
+        for node in self.nodeSet:
+            heroes[node.heroId] = node.playedTimes
+        
+        return heroes
+        
+    def sortByPlayedTimes(self):
+        heroes = self.heroDict()
+        sortedList = sorted(heroes.iteritems(), 
+                                key=lambda d:d[1], reverse = True)
+        return sortedList
+        
 class Node:
     """
     #ucbScore = 0

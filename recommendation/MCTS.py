@@ -15,15 +15,6 @@ class MCTS:
     基于MonteCarlo Tree Search的搜索算法
     """
     
-    ownSide = []
-    enemySide = []
-    heroDict = {}
-    remainList = []
-    model = None
-    heroWinRate = {}        #记录英雄胜率
-    avgWinRate = 0          #当前局面下平均胜率
-    firstLayer = None
-    rounds = 0
 
     def __init__(self,ownSide,enemySide,model,heroDict):
         
@@ -37,6 +28,10 @@ class MCTS:
         self.remainList = list(set(self.heroDict).difference(set(self.ownSide)
                                 .union(set(self.enemySide))))
         self.model = model
+        self.firstLayer = None
+        self.rounds = 0
+        self.avgWinRate = 0
+        self.heroWinRate = {}
     
     def run(self,runTime=5):
         
@@ -206,6 +201,33 @@ class MCTS:
             return False
             
         return True
+    
+    def getAvgWinRate(self):
+        if len(self.ownSide) == 4 and len(self.enemySide) == 5:
+            return self.avgWinRate
+        
+        return self.firstLayer.avgWinRate()
+    
+    def policy(self):
+        """
+        输出英雄选择策略，按优先级从大到小排序
+        """
+        if len(self.ownSide) == 4 and len(self.enemySide) == 5:
+            heroWinRate = self.heroWinRate
+            sortedList = sorted(heroWinRate.iteritems(), 
+                                key=lambda d:d[1], reverse = True)
+            herolist = []
+            for i in sortedList:
+                herolist.append(i[0])
+            return herolist
+        
+        sortedList = self.firstLayer.sortByPlayedTimes()
+        heroList = []
+        for i in sortedList:
+            heroList.append(i[0])
+        
+        return heroList
+    
 
 if __name__ == "__main__":
     """
