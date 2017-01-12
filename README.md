@@ -24,6 +24,7 @@ python app.py
 ### Using APIs
 The web server provides two APIs: prediction API and recommendation API
 - prediction api: given the full hero composition of a match(10 heroes), return the predicitve result of the match 
-  ``` 
-  POST
-  ```
+  - request form
+``` 
+POST
+```
