@@ -10,12 +10,21 @@ import json
 
 ownSide = [1,2,3,4]
 enemySide = [5,6,7,8]
+radiant = [1,2,3,4,5]
+dire = [6,7,8,9,10]
 headers = {'Content-type': 'application/json'}
-match = {'ownSide': ownSide,
+match1 = {'ownSide': ownSide,
          'enemySide': enemySide,
          'topK':3}
+match2 = {"radiant":radiant,
+          "dire":dire}
+          
+recommend = requests.post("http://localhost:5000/api/v1.0/recommend",
+                          headers=headers,
+                          data=json.dumps(match1))
 
-r = requests.post("http://localhost:5000/api/v1.0/recommend",
-                  headers=headers,
-                  data=json.dumps(match))
-print r.text
+predict = requests.post("http://localhost:5000/api/v1.0/predict",
+                        headers=headers,
+                        data=json.dumps(match2))
+print recommend.text
+print predict.text

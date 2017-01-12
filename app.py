@@ -32,8 +32,14 @@ def recommend():
 @app.route("/api/v1.0/predict",methods=["POST"])
 def predict():  
     
-    radiant = request.form["radiant"]
-    dire = request.form["dire"]
+    radiant = request.json["radiant"]
+    dire = request.json["dire"]
+    
+    result = baseModel.predictProba(radiant,dire)
+    response = {"radiantWinRate":result[0],
+                "direWinRate":result[1]}
+    
+    return jsonify(response)
         
 if __name__ == '__main__':
     modelPath = "resource/model.pkl"    
