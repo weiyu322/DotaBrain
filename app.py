@@ -23,7 +23,8 @@ def recommend():
     enemySide = request.json["enemySide"]
     topK = request.json["topK"]
 
-    
+    ownSide = map(lambda x:heroList[x],ownSide)
+    enemySide = map(lambda x:heroList[x],enemySide)
     recommendInfo = engine.recommend(ownSide,enemySide,topK)
     print recommendInfo
     
@@ -34,7 +35,8 @@ def predict():
     
     radiant = request.json["radiant"]
     dire = request.json["dire"]
-    
+    radiant = map(lambda x:heroList[x],radiant)
+    dire = map(lambda x:heroList[x],dire)
     result = baseModel.predictProba(radiant,dire)
     response = {"radiantWinRate":result[0],
                 "direWinRate":result[1]}
@@ -43,7 +45,8 @@ def predict():
         
 if __name__ == '__main__':
     modelPath = "resource/model.pkl"    
-    heroDict = loadHeroDict("resource/heroes.json")
+    heroDict,heroList = loadHeroDict("resource/heroes.json")
+    heroList = dict((v,k) for k,v in heroList.iteritems()) 
     baseModel = BaseModel(modelPath,heroDict)
-    engine = Engine(baseModel,heroDict,method="PureMC",epochs=100)
+    engine = Engine(baseModel,heroDict,method="MCTS")
     app.run()
