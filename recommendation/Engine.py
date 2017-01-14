@@ -14,18 +14,15 @@ class Engine:
     """
     英雄推荐引擎
     """
+
     
-    heroDict = {}
-    epochs = 0
-    baseModel = None
-    method = ""
-    
-    def __init__(self,baseModel,heroDict,method="PureMC",epochs=100):
+    def __init__(self,baseModel,heroDict,method="PureMC",epochs=100,runTime=5):
         
         self.baseModel = baseModel
         self.heroDict = heroDict        
         self.epochs = epochs
         self.method = method
+        self.runTime = runTime
     
     def recommend(self,ownSide,enemySide,topK=3):
         """
@@ -51,7 +48,7 @@ class Engine:
             """
             searchModel = MCTS(ownSide,enemySide,
                                self.baseModel,self.heroDict)
-            searchModel.run(runTime=5)
+            searchModel.run(runTime=self.runTime)
             recommendInfo["avgWinRate"] = searchModel.getAvgWinRate()
             heroList = searchModel.policy()
             recommendInfo["recommendation"] = heroList[0:topK]
@@ -68,7 +65,7 @@ if __name__ == "__main__":
     ownSide = [6,7,8,9]
     enemySide = [1,2,3,4]
     
-    engine = Engine(baseModel,heroDict,epochs=100,method="MCTS")
+    engine = Engine(baseModel,heroDict,method="MCTS")
     
     start = time()
     recommendInfo = engine.recommend(ownSide,enemySide)

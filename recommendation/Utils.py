@@ -25,7 +25,7 @@ def loadHeroDict(path):
         newheroid[i] = count
         count += 1
         
-    return newheroid
+    return newheroid,herolist
 
 
 def toFeatureVector(radiant,dire,heroDict):
@@ -44,7 +44,7 @@ def toFeatureVector(radiant,dire,heroDict):
     
     return featureVector
 
-def loadPickle(self,modelPath):
+def loadPickle(modelPath):
     """
     反序列化模型对象
     """
