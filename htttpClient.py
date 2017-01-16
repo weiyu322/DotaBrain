@@ -8,8 +8,8 @@ Created on Tue Dec 20 23:08:39 2016
 import requests
 import json
 
-ownSide = [1,2,3,4]
-enemySide = [5,6,7,8]
+ownSide = ["Anti-Mage","Axe","Bane","Bloodseeker"]
+enemySide = ["Crystal Maiden","Drow Ranger","Earthshaker","Juggernaut"]
 radiant = [1,2,3,4,5]
 dire = [6,7,8,9,10]
 headers = {'Content-type': 'application/json'}
@@ -22,9 +22,10 @@ match2 = {"radiant":radiant,
 recommend = requests.post("http://localhost:5000/api/v1.0/recommend",
                           headers=headers,
                           data=json.dumps(match1))
-
+"""
 predict = requests.post("http://localhost:5000/api/v1.0/predict",
                         headers=headers,
                         data=json.dumps(match2))
+"""
 print recommend.text
-print predict.text
+#print predict.text

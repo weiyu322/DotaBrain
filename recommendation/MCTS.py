@@ -234,7 +234,7 @@ if __name__ == "__main__":
     单元测试
     """    
     modelPath = "../resource/model.pkl"    
-    heroDict = loadHeroDict("../resource/heroes.json")
+    heroDict,_ = loadHeroDict("../resource/heroes.json")
     model = BaseModel(modelPath,heroDict)
     ownSide = [5,6,7,8]
     enemySide = [1,2,3,4]
