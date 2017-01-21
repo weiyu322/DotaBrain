@@ -26,6 +26,9 @@ def recommend():
     ownSide = map(lambda x:heroList[x],ownSide)
     enemySide = map(lambda x:heroList[x],enemySide)
     recommendInfo = engine.recommend(ownSide,enemySide,topK)
+    
+    recommendInfo["recommendation"] = map(lambda x:heroList[x],
+                                            recommendInfo["recommendation"])
     print recommendInfo
     
     return jsonify(recommendInfo)
