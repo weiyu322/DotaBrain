@@ -31,8 +31,8 @@ The web server provides two APIs: prediction API and recommendation API
   Host: localhost:5000
 
   {
-    "radiant": [1,2,3,4,5],
-    "dire": [6,7,8,9,10]
+    "radiant": ["Anti-Mage","Axe","Bane","Bloodseeker","Crystal Maiden"],
+    "dire": ["Drow Ranger","Earthshaker","Juggernaut","Mirana","Morphling"]
   }
   ```
   * response form
@@ -55,8 +55,8 @@ The web server provides two APIs: prediction API and recommendation API
   Host: localhost:5000
   
   {
-    "ownSide": [1,2,3],
-    "enemySide": [4,5,6]
+    "ownSide": ["Anti-Mage","Axe","Bane"],
+    "enemySide": ["Bloodseeker","Crystal Maiden","Drow Ranger"]
     "topK": 3
   }
   ```
@@ -70,9 +70,9 @@ The web server provides two APIs: prediction API and recommendation API
   {
     "avgWinRate": 0.33632085184454052, 
     "recommendation": [
-      96, 
-      40, 
-      57
+      "Centaur Warrunner", 
+      "Venomancer", 
+      "Omniknight"
     ]
   }
   ```
