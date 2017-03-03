@@ -7,7 +7,7 @@ A Dota2 Hero Recommendation Engine Based On MachineLearning Techs And MonteCarlo
 - Based on this predictive model, DotaBrain further uses [MonteCarlo Tree Search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm which is a key algorithm for many board games AI like [AlphaGo](https://en.wikipedia.org/wiki/AlphaGo) to provide players with real-time hero recommendation.
 
 ## Framework
-![image](https://github.com/weiyu322/DotaBrain/tree/master/resource/framework.png)
+![image](https://github.com/weiyu322/DotaBrain/blob/master/resource/framework.png)
 
 ## Requirements
 1.flask<br>
