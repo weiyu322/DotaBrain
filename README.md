@@ -27,7 +27,7 @@ python app.py
 ### Using APIs
 The web server provides two APIs: prediction API and recommendation API
 * prediction api: given the full hero composition of a match(10 heroes), return the predicitve result of the match 
-  * request form
+ * request form
   ``` 
   POST /api/v1.0/predict HTTP/1.1
   Content-type: application/json
@@ -38,7 +38,7 @@ The web server provides two APIs: prediction API and recommendation API
     "dire": ["Drow Ranger","Earthshaker","Juggernaut","Mirana","Morphling"]
   }
   ```
-  * response form
+ * response form
   ```
   HTTP/1.1 200 OK
   Date: Thu, 12 Jan 2017 08:34:15 GMT
@@ -51,7 +51,7 @@ The web server provides two APIs: prediction API and recommendation API
   }
   ```
 * recommendation api: given part of hero composition of a match(< 10 heroes), return topK hero recommendations
-  * request form
+ * request form
   ```
   POST /api/v1.0/recommend HTTP/1.1
   Content-type: application/json
@@ -63,7 +63,7 @@ The web server provides two APIs: prediction API and recommendation API
     "topK": 3
   }
   ```
-  * response form
+ * response form
   ```
   HTTP/1.1 200 OK
   Date: Thu, 12 Jan 2017 08:34:15 GMT
