@@ -38,6 +38,7 @@ The web server provides two APIs: prediction API and recommendation API
     "dire": ["Drow Ranger","Earthshaker","Juggernaut","Mirana","Morphling"]
   }
   ```
+  
   * response form
   ```
   HTTP/1.1 200 OK
