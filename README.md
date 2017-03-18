@@ -26,7 +26,7 @@ python app.py
 ```
 ### Using APIs
 The web server provides two APIs: prediction API and recommendation API
-*prediction api: given the full hero composition of a match(10 heroes), return the predicitve result of the match 
+* prediction api: given the full hero composition of a match(10 heroes), return the predicitve result of the match 
   *request form
   ``` 
   POST /api/v1.0/predict HTTP/1.1
@@ -50,7 +50,7 @@ The web server provides two APIs: prediction API and recommendation API
     "direWinRate": 0.51262806248781567
   }
   ```
-*recommendation api: given part of hero composition of a match(< 10 heroes), return topK hero recommendations
+* recommendation api: given part of hero composition of a match(< 10 heroes), return topK hero recommendations
   *request form
   ```
   POST /api/v1.0/recommend HTTP/1.1
